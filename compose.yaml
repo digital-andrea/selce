@@ -4,8 +4,9 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
+    # With Caddy acting as a reverse proxy, exposing ports here is not necessary
+    # ports:
+    #   - "8000:8000"
     restart: unless-stopped
     develop:
       watch:
@@ -15,3 +16,33 @@ services:
           ignore: node_modules/
         - action: rebuild
           path: ./server/deno.json
+  caddy:
+    image: caddy:2.10.0-alpine
+    container_name: caddy-reverse-proxy
+    restart: unless-stopped
+    # Caddy ships with HTTP/3 support enabled by default. To improve the
+    # performance of this UDP based protocol, the underlying quic-go library
+    # tries to increase the buffer sizes for its socket. The NET_ADMIN
+    # capability allows it to override the low default limits of the operating
+    # system without having to change kernel parameters via sysctl. Giving the
+    # container this capability is optional and has potential, though unlikely,
+    # to have security implications.
+    # See https://github.com/quic-go/quic-go/wiki/UDP-Buffer-Sizes for more
+    # details.
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile
+      # Named volumes for Caddy's persistent data (like generated certs)
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - app
+
+volumes:
+  caddy_data:
+  caddy_config:

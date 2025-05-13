@@ -1,0 +1,6 @@
+localhost {
+	# Reverse proxy requests to Deno
+	# respond "Hello world"
+	reverse_proxy deno-app:8000
+	encode
+}
