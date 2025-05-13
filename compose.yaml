@@ -1,0 +1,17 @@
+services:
+  app:
+    container_name: deno-app
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    develop:
+      watch:
+        - action: sync
+          path: ./server
+          target: /app
+          ignore: node_modules/
+        - action: rebuild
+          path: ./server/deno.json
