@@ -1,6 +1,13 @@
 localhost {
 	# Reverse proxy requests to Deno
 	# respond "Hello world"
+
+	rewrite /adminer /adminer/
+	handle_path /adminer/* {
+		uri strip_prefix /adminer
+		reverse_proxy dbm:8080
+	}
+	
 	reverse_proxy deno-app:8000
 	encode
 }
