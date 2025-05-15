@@ -10,9 +10,10 @@ WORKDIR /app
 USER deno
 
 # Copy files over
-COPY . .
+COPY ./server .
+COPY ./client/ ./client
 
 # Compile the main app so that it doesn't need to be compiled each startup/entry
 RUN deno cache main.ts
 
-CMD ["run", "--allow-net", "--watch", "main.ts"]
+CMD ["run", "--allow-net", "--allow-read", "--allow-write", "--watch", "main.ts"]

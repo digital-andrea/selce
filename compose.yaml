@@ -2,8 +2,8 @@ services:
   app:
     container_name: deno-app
     build:
-      context: ./server
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: server/Dockerfile
     # With Caddy acting as a reverse proxy, exposing ports here is not necessary
     # ports:
     #   - "8000:8000"
@@ -14,6 +14,9 @@ services:
           path: ./server
           target: /app
           ignore: node_modules/
+        - action: sync
+          path: ./client
+          target: /app/client
         - action: rebuild
           path: ./server/deno.json
   caddy:
