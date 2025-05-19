@@ -1,8 +1,10 @@
 import { Hono } from "hono";
 import { serveStatic } from "hono/deno";
 import { csrf } from "hono/csrf";
+import { logger } from "hono/logger";
 
 const app = new Hono();
+app.use(logger());
 app.use(csrf());
 
 const test = {
