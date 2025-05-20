@@ -1,12 +1,8 @@
 services:
-  app:
-    container_name: deno-app
+  hono-server:
     build:
       context: .
       dockerfile: server/Dockerfile
-    # With Caddy acting as a reverse proxy, exposing ports here is not necessary
-    # ports:
-    #   - "8000:8000"
     restart: unless-stopped
     develop:
       watch:
@@ -19,9 +15,21 @@ services:
           target: /app/client
         - action: rebuild
           path: ./server/deno.json
+  frontend:
+    build:
+      context: ./client/
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    develop:
+      watch:
+        - action: sync
+          path: ./client/
+          target: /app/
+          ignore: node_modules/
+        - action: rebuild
+          path: ./client/package.json
   caddy:
     image: caddy:2.10.0-alpine
-    container_name: caddy-reverse-proxy
     restart: unless-stopped
     # Caddy ships with HTTP/3 support enabled by default. To improve the
     # performance of this UDP based protocol, the underlying quic-go library
@@ -38,16 +46,21 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
+      - "4321:4321" # For Astro's dev server
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       # Named volumes for Caddy's persistent data (like generated certs)
       - caddy_data:/data
       - caddy_config:/config
+    develop:
+      watch:
+        - action: sync+restart
+          path: ./caddy/
+          target: .
     depends_on:
-      - app
+      - hono-server
   db:
     image: postgres:17.5-alpine3.21
-    container_name: postgresdb
     restart: always
     shm_size: 128mb # set shared memory limit
     env_file:
@@ -58,10 +71,7 @@ services:
       - POSTGRES_DB=${POSTGRES_DB}
   adminer:
     image: adminer
-    container_name: dbm
     restart: always
-    # ports:
-    #   - 8080:8080
 
 volumes:
   caddy_data:

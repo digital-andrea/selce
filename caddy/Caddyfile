@@ -5,9 +5,13 @@ localhost {
 	rewrite /adminer /adminer/
 	handle_path /adminer/* {
 		uri strip_prefix /adminer
-		reverse_proxy dbm:8080
+		reverse_proxy adminer:8080
 	}
-	
-	reverse_proxy deno-app:8000
+
+	reverse_proxy hono-server:8000
 	encode
+}
+
+dev.localhost {
+	reverse_proxy frontend:4321
 }

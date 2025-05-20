@@ -11,7 +11,7 @@ USER deno
 
 # Copy files over
 COPY ./server .
-COPY ./client/ ./client
+COPY ./client/dist ./client
 
 # Compile the main app so that it doesn't need to be compiled each startup/entry
 RUN deno cache main.ts
