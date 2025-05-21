@@ -4,22 +4,29 @@ services:
       context: .
       dockerfile: server/Dockerfile
     restart: unless-stopped
+    environment:
+      - TARGET_ENVIRONMENT=${TARGET_ENVIRONMENT}
+    volumes:
+      - astro_build:/app/public
+    depends_on:
+      - frontend
     develop:
       watch:
         - action: sync
           path: ./server
           target: /app
           ignore: node_modules/
-        - action: sync
-          path: ./client
-          target: /app/client
         - action: rebuild
           path: ./server/deno.json
   frontend:
     build:
       context: ./client/
       dockerfile: Dockerfile
-    restart: unless-stopped
+    restart: on-failure:5
+    environment:
+      - TARGET_ENVIRONMENT=${TARGET_ENVIRONMENT}
+    volumes:
+      - astro_build:/app/dist
     develop:
       watch:
         - action: sync
@@ -74,5 +81,6 @@ services:
     restart: always
 
 volumes:
-  caddy_data:
-  caddy_config:
+  caddy_data: {}
+  caddy_config: {}
+  astro_build: {}

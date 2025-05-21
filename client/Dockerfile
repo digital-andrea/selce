@@ -16,4 +16,4 @@ ENV ASTRO_TELEMETRY_DISABLED=1
 
 RUN deno install --allow-scripts
 
-CMD ["task", "astro", "dev", "--host", "0.0.0.0"]
+CMD ["run", "--allow-env", "--allow-run", "start.ts"]

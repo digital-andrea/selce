@@ -11,9 +11,8 @@ USER deno
 
 # Copy files over
 COPY ./server .
-COPY ./client/dist ./client
 
 # Compile the main app so that it doesn't need to be compiled each startup/entry
 RUN deno cache main.ts
 
-CMD ["run", "--allow-net", "--allow-read", "--allow-write", "--watch", "main.ts"]
+CMD ["run", "--allow-env", "--allow-run", "start.ts"]

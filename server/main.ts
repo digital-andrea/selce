@@ -22,6 +22,6 @@ const test = {
 };
 
 app.get("/api/test", (c) => c.json(test));
-app.get("/*", serveStatic({ root: "./client" }));
+app.get("/*", serveStatic({ root: "./public" }));
 
 Deno.serve(app.fetch);
