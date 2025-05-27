@@ -1,16 +1,49 @@
 ---
-
 ---
-
 <html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro</title>
+  </head>
+  <body>
     <h1>Hello Astro!</h1>
-	</body>
+    <button id="github-login">Login with GitHub</button>
+    <button id="discord-login">Login with Discord</button>
+
+    <script>
+      import { authClient } from '../lib/auth-client';
+
+      document.getElementById('github-login')?.addEventListener('click', async () => {
+        try {
+          await authClient.signIn.social({
+            provider: "github",
+            callbackURL: "/dashboard",
+            errorCallbackURL: "/error",
+            newUserCallbackURL: "/welcome",
+            disableRedirect: false,
+          });
+        } catch (error) {
+          console.error('Login failed:', error);
+        }
+      });
+
+
+      document.getElementById('discord-login')?.addEventListener('click', async () => {
+        try {
+          await authClient.signIn.social({
+            provider: "discord",
+            callbackURL: "/dashboard",
+            errorCallbackURL: "/error",
+            newUserCallbackURL: "/welcome",
+            disableRedirect: false,
+          });
+        } catch (error) {
+          console.error('Login failed:', error);
+        }
+      });
+    </script>
+  </body>
 </html>

@@ -10,6 +10,7 @@ if (mode === "dev") {
     "--allow-net",
     "--allow-read",
     "--allow-write",
+    "--allow-env",
     "--watch",
     "main.ts",
   ];
@@ -21,6 +22,7 @@ if (mode === "dev") {
     "--allow-net",
     "--allow-read",
     "--allow-write",
+    "--allow-env",
     "main.ts",
   ];
 } else {
