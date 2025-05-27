@@ -6,9 +6,6 @@ EXPOSE 8000
 # Working directory within the container
 WORKDIR /app
 
-# Prefer not to run as root.
-USER deno
-
 # Copy files over
 COPY ./server .
 
