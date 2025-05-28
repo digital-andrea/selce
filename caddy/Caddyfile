@@ -13,5 +13,10 @@ localhost {
 }
 
 dev.localhost {
+        handle /api/* {
+                reverse_proxy hono-server:8000
+                encode
+        }
 	reverse_proxy frontend:4321
+        encode
 }
