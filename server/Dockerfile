@@ -12,4 +12,4 @@ COPY ./server .
 # Compile the main app so that it doesn't need to be compiled each startup/entry
 RUN deno cache main.ts
 
-CMD ["run", "--allow-env", "--allow-run", "start.ts"]
+CMD ["run", "--allow-env", "--allow-run", "--allow-read=.", "start.ts"]
