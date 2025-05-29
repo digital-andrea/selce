@@ -1,0 +1,33 @@
+---
+
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Astro Welcome</title>
+  </head>
+  <body>
+    <h1>Welcome!</h1>
+    <p id="username-display"></p>
+    <button id="logout">Log out</button>
+    <script>
+      import { authClient } from "../lib/auth-client";
+
+      const session = await authClient.getSession();
+      const username = session.data?.user.name;
+      const p = document.getElementById("username-display");
+      if (p) {
+        p.textContent = username || "Unknown (not logged in)";
+      }
+
+      document.getElementById("logout")?.addEventListener("click", async () => {
+        await authClient.signOut();
+        window.location.reload();
+      });
+    </script>
+  </body>
+</html>
