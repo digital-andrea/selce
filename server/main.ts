@@ -7,21 +7,9 @@ import { auth } from "./lib/auth.ts";
 
 const app = new Hono();
 app.use(logger());
-app.use(
-  "/api/auth/**",
-  cors({
-    origin: ["https://dev.localhost", "https://localhost:4321"],
-    allowMethods: ["GET", "POST", "OPTIONS"],
-    allowHeaders: ["Content-Type", "Authorization"],
-    credentials: true,
-  }),
-);
+app.use("/api/auth/**", cors());
 
-app.use(
-  csrf({
-    origin: ["https://dev.localhost", "https://localhost:4321"],
-  }),
-);
+app.use(csrf());
 
 const test = {
   menu: {

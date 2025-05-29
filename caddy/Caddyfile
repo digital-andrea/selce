@@ -1,22 +1,32 @@
 localhost {
-	# Reverse proxy requests to Deno
-	# respond "Hello world"
+	# Detect dev mode from environment variable
+	@dev {
+		expression {env.TARGET_ENVIRONMENT} == 'dev'
+	}
+	# Detect prod mode from environment variable
+        @prod {
+		expression {env.TARGET_ENVIRONMENT} == 'prod'
+	}
 
+        # API routes always go to hono, regardless of dev mode or prod mode
+        handle /api/* {
+                reverse_proxy hono-server:8000
+        }
+
+        # Redirect /adminer to the appropriate container
 	rewrite /adminer /adminer/
 	handle_path /adminer/* {
 		uri strip_prefix /adminer
 		reverse_proxy adminer:8080
+                encode
 	}
 
-	reverse_proxy hono-server:8000
-	encode
-}
-
-dev.localhost {
-        handle /api/* {
-                reverse_proxy hono-server:8000
-                encode
+        handle {
+                # Dev mode goes to astro's dev server
+	        reverse_proxy @dev frontend:4321
+                # Prod mode goes to hono
+	        reverse_proxy @prod hono-server:8000
         }
-	reverse_proxy frontend:4321
-        encode
+
+	encode
 }

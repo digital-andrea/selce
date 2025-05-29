@@ -63,12 +63,13 @@ services:
       - "80:80"
       - "443:443"
       - "443:443/udp"
-      - "4321:4321" # For Astro's dev server
     volumes:
       - ./caddy/Caddyfile:/etc/caddy/Caddyfile
       # Named volumes for Caddy's persistent data (like generated certs)
       - caddy_data:/data
       - caddy_config:/config
+    environment:
+      - TARGET_ENVIRONMENT=${TARGET_ENVIRONMENT}
     develop:
       watch:
         - action: sync+restart
