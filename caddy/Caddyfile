@@ -17,7 +17,10 @@ localhost {
 	rewrite /adminer /adminer/
 	handle_path /adminer/* {
 		uri strip_prefix /adminer
-		reverse_proxy adminer:8080
+		# Dev mode exposes Adminer page
+		reverse_proxy @dev adminer:8080
+		# Prod mode 404s the Adminer page (don't expose it)
+                respond @prod "404 Not Found" 404
                 encode
 	}
 
