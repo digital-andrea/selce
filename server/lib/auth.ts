@@ -1,8 +1,7 @@
 import { betterAuth } from "better-auth";
 import { Pool } from "pg";
 
-const connectionString = Deno.env.get("POSTGRES_URL");
-console.log("Using connection string:", connectionString);
+const connectionString = Deno.env.get("DATABASE_URL");
 
 export const auth = betterAuth({
   database: new Pool({
