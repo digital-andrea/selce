@@ -50,7 +50,7 @@ After copying `.env.example` to `.env`, configure these variables:
 | Variable                | Description                     | Values                                                                                                                           |
 | ----------------------- | ------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
 | `TARGET_ENVIRONMENT`    | Deployment environment          | `dev` for development mode, `prod` for production. See below for information on the differences                                  |
-| `BETTER_AUTH_SECRET`    | Secret key for auth tokens      | You can generate this with `openssl rand -base64 32` or through their [docs page](https://www.better-auth.com/docs/installation) |
+| `BETTER_AUTH_SECRET`    | Secret key for auth tokens      | You can generate this with `openssl` or through their [docs page](https://www.better-auth.com/docs/installation)                 |
 | `BETTER_AUTH_URL`       | Your app's URL                  | `https://localhost` (dev) or `https://yourdomain.com`                                                                            |
 | `GITHUB_CLIENT_ID`      | GitHub OAuth app ID             | Get it from [GitHub Developer Settings](https://github.com/settings/developers)                                                  |
 | `GITHUB_CLIENT_SECRET`  | GitHub OAuth app secret         | Get it from your GitHub OAuth app                                                                                                |
@@ -59,7 +59,8 @@ After copying `.env.example` to `.env`, configure these variables:
 | `POSTGRES_USER`         | Database username               | Anything you like! :)                                                                                                            |
 | `POSTGRES_PASSWORD`     | Database password               | Use a strong password                                                                                                            |
 | `POSTGRES_DB`           | Database name                   | `my_db` (or whatever you prefer)                                                                                                 |
-| `POSTGRES_URL`          | Full database connection string | `postgresql://user:password@db:5432/dbname`                                                                                      |
+| `POSTGRES_HOSTNAME`     | Database hostname               | The network location the database is hosted at. `db` in the default Docker config                                                |
+| `POSTGRES_PORT`         | Database port                   | The port to connect to. `5432` by default                                                                                        |
 
 ### Development vs production modes
 
