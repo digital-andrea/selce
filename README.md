@@ -7,16 +7,19 @@ _A full stack template to quickly deploy a web app, auth included_
 - Run `docker compose up`
 - Enjoy! You get auth, a database, HTTPS, backend, frontend, and Docker config.
 
-## ✨ What's Inside
+## What is it?
 
-- **🫆 Authentication ready** - OAuth login out of the box (easy to add more)
-- **🔥 Lightweight backend** - Hono server, built on web standards, with Deno
-- **☄️ Flexible frontend** - Astro, so you can have your choice of framework(s)
-- **🔒 Automatic HTTPS** - Caddy handles certificates, even on localhost
-- **🗃️ Database included** - PostgreSQL, ready for your data
-- **🐳 One-command deploy** - Docker Compose orchestrates everything
+Selce is a starter template with various software preconfigured and running in
+Docker containers to reduce the friction of starting yet another web app.
 
-## 🚀 Quick Start
+- **Authentication ready** - OAuth login out of the box (easy to add more)
+- **Lightweight backend** - Hono server, built on web standards, with Deno
+- **Flexible frontend** - Astro, so you can have your choice of framework(s)
+- **Automatic HTTPS** - Caddy handles certificates, even on localhost
+- **Database included** - PostgreSQL, ready for your data
+- **One-command deploy** - Docker Compose orchestrates everything
+
+## Quick Start
 
 > [!TIP]
 > On GitHub, you can use the `Use this template` button instead of cloning.
@@ -42,7 +45,7 @@ _A full stack template to quickly deploy a web app, auth included_
 
 That's it! Your app is running with HTTPS, auth, and database ready to go.
 
-## ⚙️ Configuration
+## Configuration
 
 You will need to add your own keys, URLs, and more as environment variables.
 After copying `.env.example` to `.env`, configure these variables:
@@ -90,7 +93,7 @@ OAuth providers, and even other auth flows like email and password.
 
 Check their docs to see what's available and how to add them!
 
-## 🏗️ Architecture
+## Architecture
 
 Development mode:
 ```
@@ -176,7 +179,7 @@ Production mode:
                                                           └───────────────────┘
 ```
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 selce/
@@ -187,7 +190,7 @@ selce/
 └── .env.example     # Configuration template
 ```
 
-## 🔒 HTTPS on Localhost
+## HTTPS on Localhost
 
 Caddy automatically generates certificates for HTTPS.
 To achieve that in development mode, it signs its own certificates.
