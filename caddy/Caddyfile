@@ -4,32 +4,32 @@ localhost {
 		expression {env.TARGET_ENVIRONMENT} == 'dev'
 	}
 	# Detect prod mode from environment variable
-        @prod {
+	@prod {
 		expression {env.TARGET_ENVIRONMENT} == 'prod'
 	}
 
-        # API routes always go to hono, regardless of dev mode or prod mode
-        handle /api/* {
-                reverse_proxy hono-server:8000
-        }
+	# API routes always go to hono, regardless of dev mode or prod mode
+	handle /api/* {
+		reverse_proxy hono-server:8000
+	}
 
-        # Redirect /adminer to the appropriate container
+	# Redirect /adminer to the appropriate container
 	rewrite /adminer /adminer/
 	handle_path /adminer/* {
 		uri strip_prefix /adminer
 		# Dev mode exposes Adminer page
 		reverse_proxy @dev adminer:8080
 		# Prod mode 404s the Adminer page (don't expose it)
-                respond @prod "404 Not Found" 404
-                encode
+		respond @prod "404 Not Found" 404
+		encode
 	}
 
-        handle {
-                # Dev mode goes to astro's dev server
-	        reverse_proxy @dev frontend:4321
-                # Prod mode goes to hono
-	        reverse_proxy @prod hono-server:8000
-        }
+	handle {
+		# Dev mode goes to astro's dev server
+		reverse_proxy @dev frontend:4321
+		# Prod mode goes to hono
+		reverse_proxy @prod hono-server:8000
+	}
 
 	encode
 }
