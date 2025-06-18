@@ -8,7 +8,6 @@ WORKDIR /app
 
 # Copy files over
 COPY ./package.json .
-COPY ./deno.lock .
 RUN deno install --allow-scripts
 COPY . .
 
