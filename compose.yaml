@@ -96,7 +96,7 @@ services:
       # $$VAR is used to ensure the variable is expanded *inside the
       # container's shell* from the container's environment, not by Docker
       # Compose from the host.
-      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres} -d $${POSTGRES_DB:-postgres} || exit 1"]
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER:-postgres} -d postgres || exit 1"]
       interval: 10s
       timeout: 5s
       retries: 5
